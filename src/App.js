@@ -1,18 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
-import Amplify from 'aws-amplify';
-import config from './aws-exports';
-Amplify.configure(config);
-
+import logo from './logo.svg'
+import './App.css'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
+
+        <p>askjdfhaskjdfh alskdf skasjdf;lasdlifjpwnviwanv </p>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -23,7 +18,7 @@ function App() {
         </a>
       </header>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
