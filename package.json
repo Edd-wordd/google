@@ -28,7 +28,6 @@
     "lint:fix": "eslint src --ext .js,.jsx --fix",
     "prettier": "prettier --check \"src/**/*.{js,jsx,css}\""
   },
-
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -48,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "prettier": "^3.2.5",
     "typescript": "^4.9.5"
   }
 }
