@@ -16,3 +16,7 @@ EXPOSE 3000
 # Start the application
 CMD ["npm", "start"]
 
+## Path: .dockerignore
+#node_modules
+#npm-debug.log
+#```
