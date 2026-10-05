@@ -1,0 +1,165 @@
+/* Explore Cube — CSS 3D transforms, perfect geometry */
+
+/* Single source of truth for cube dimensions */
+.container {
+  --cubeSize: 280px;
+  --half: calc(var(--cubeSize) / 2);
+
+  position: absolute;
+  inset: 0;
+  min-height: 320px;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.cube {
+  position: relative;
+  width: var(--cubeSize);
+  height: var(--cubeSize);
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.cubeDragging {
+  transition: none;
+}
+
+/* Face base — exact dimensions, no padding on outer face */
+.face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--cubeSize);
+  height: var(--cubeSize);
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.faceInner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: rgba(12, 14, 22, 0.9);
+  border: 1px solid rgba(0, 255, 200, 0.15);
+}
+
+/* Face transforms — translateZ must equal half for correct cube geometry */
+.faceFront {
+  transform: rotateY(0deg) translateZ(var(--half));
+}
+
+.faceRight {
+  transform: rotateY(90deg) translateZ(var(--half));
+}
+
+.faceBack {
+  transform: rotateY(180deg) translateZ(var(--half));
+}
+
+.faceLeft {
+  transform: rotateY(-90deg) translateZ(var(--half));
+}
+
+.faceTop {
+  transform: rotateX(90deg) translateZ(var(--half));
+}
+
+.faceBottom {
+  transform: rotateX(-90deg) translateZ(var(--half));
+}
+
+/* Face controls */
+.controls {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 6px 8px;
+  background: rgba(8, 10, 18, 0.85);
+  border: 1px solid rgba(0, 255, 200, 0.12);
+  border-radius: 8px;
+  z-index: 10;
+}
+
+.controlBtn {
+  font-size: 0.4rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 4px 6px;
+  color: rgba(140, 160, 180, 0.85);
+  background: transparent;
+  border: 1px solid rgba(0, 255, 200, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.controlBtn:hover {
+  color: rgba(0, 255, 200, 0.95);
+  border-color: rgba(0, 255, 200, 0.3);
+  background: rgba(0, 255, 200, 0.06);
+}
+
+.controlBtnActive {
+  color: rgba(0, 255, 200, 0.95);
+  background: rgba(0, 255, 200, 0.1);
+  border-color: rgba(0, 255, 200, 0.35);
+}
+
+.controlBtn:focus {
+  outline: none;
+}
+
+.controlBtn:focus-visible {
+  outline: 2px solid rgba(0, 255, 200, 0.5);
+  outline-offset: 2px;
+}
+
+/* Debug mode — add .debug to container to visualize face edges */
+.debug .face::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  outline: 1px solid rgba(255, 0, 128, 0.8);
+  outline-offset: -1px;
+}
+
+.debug .cube::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 0, 128, 0.6);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.debug .cube::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 0, 128, 0.6);
+  transform: translateX(-50%);
+  pointer-events: none;
+}

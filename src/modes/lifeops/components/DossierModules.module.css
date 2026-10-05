@@ -1,0 +1,66 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.slab {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--frameDim, rgba(120, 140, 160, 0.1));
+}
+
+.slab:last-child {
+  border-bottom: none;
+}
+
+.slabTitle {
+  font-size: 0.28rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.1em;
+  color: rgba(140, 150, 170, 0.8);
+  margin-bottom: 4px;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 0.34rem;
+}
+
+.key {
+  color: rgba(140, 150, 170, 0.75);
+}
+
+.val {
+  color: var(--accentMuted, rgba(255, 46, 245, 0.75));
+  font-variant-numeric: tabular-nums;
+}
+
+.bar {
+  height: 2px;
+  background: rgba(120, 140, 160, 0.15);
+  border-radius: 1px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  background: var(--accentDim, rgba(255, 46, 245, 0.25));
+  border-radius: 1px;
+  transition: width 0.3s ease;
+}
+
+.skeletonBar {
+  height: 12px;
+  background: rgba(40, 45, 55, 0.4);
+  border-radius: 2px;
+}

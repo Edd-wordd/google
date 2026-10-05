@@ -1,0 +1,532 @@
+/* Explore Mode — safe navigation; square types, no execution */
+.panel {
+  composes: panel from './panel.module.css';
+}
+
+.header {
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.title {
+  composes: title from './panel.module.css';
+  margin: 0 0 2px 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: rgba(0, 255, 200, 0.9);
+  text-shadow: 0 0 12px rgba(0, 255, 200, 0.25);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.52rem;
+  letter-spacing: 0.05em;
+  color: rgba(140, 150, 180, 0.6);
+}
+
+.contextBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.contextPill {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 3px 6px;
+  border-radius: 4px;
+}
+
+.contextPill[data-type='project'] {
+  color: rgba(255, 200, 120, 0.95);
+  background: rgba(255, 180, 80, 0.1);
+  border: 1px solid rgba(255, 180, 80, 0.25);
+}
+
+.contextPill[data-type='target'] {
+  color: rgba(0, 220, 200, 0.95);
+  background: rgba(0, 200, 180, 0.1);
+  border: 1px solid rgba(0, 220, 200, 0.25);
+}
+
+.contextPill[data-type='location'] {
+  color: rgba(180, 160, 255, 0.95);
+  background: rgba(140, 120, 220, 0.1);
+  border: 1px solid rgba(180, 160, 255, 0.25);
+}
+
+.contextPill[data-type='signal'] {
+  color: rgba(100, 220, 255, 0.95);
+  background: rgba(100, 200, 255, 0.1);
+  border: 1px solid rgba(100, 220, 255, 0.25);
+}
+
+/* Grid */
+.grid {
+  flex: 1;
+  min-height: 100px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 4px;
+  padding: 6px;
+  background: rgba(20, 20, 35, 0.6);
+  border: 1px solid rgba(0, 255, 200, 0.15);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.cellEmpty {
+  background: rgba(40, 45, 60, 0.35);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Square base — click = enter space, never execute */
+.square {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px 4px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(40, 45, 60, 0.5);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+  font-family: inherit;
+  text-align: center;
+  min-height: 0;
+}
+
+.square:hover {
+  transform: scale(1.03);
+  border-color: rgba(0, 255, 200, 0.25);
+  background: rgba(0, 255, 200, 0.06);
+  box-shadow: 0 0 14px rgba(0, 255, 200, 0.12);
+}
+
+.square:active {
+  transform: scale(1.01);
+}
+
+.square:focus {
+  outline: none;
+}
+
+.square:focus-visible {
+  outline: 2px solid rgba(0, 255, 200, 0.5);
+  outline-offset: 2px;
+}
+
+.squareIcon {
+  font-size: 1.08rem;
+  opacity: 0.9;
+  line-height: 1;
+}
+
+.squareLabel {
+  font-size: 0.4rem;
+  font-weight: 500;
+  color: rgba(200, 220, 230, 0.9);
+  letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.squareBadge {
+  font-size: 0.38rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(140, 160, 180, 0.7);
+}
+
+/* Project squares */
+.square_project {
+  border-color: rgba(255, 180, 80, 0.12);
+  background: rgba(50, 45, 40, 0.4);
+}
+
+.square_project:hover {
+  border-color: rgba(255, 180, 80, 0.3);
+  background: rgba(255, 180, 80, 0.06);
+  box-shadow: 0 0 14px rgba(255, 180, 80, 0.12);
+}
+
+.squareActive {
+  background: rgba(255, 180, 80, 0.12) !important;
+  border-color: rgba(255, 180, 80, 0.4) !important;
+  box-shadow: 0 0 16px rgba(255, 180, 80, 0.2);
+}
+
+.squareActive .squareLabel {
+  color: rgba(255, 220, 140, 0.95);
+}
+
+/* Target squares */
+.square_target {
+  border-color: rgba(0, 255, 200, 0.12);
+  background: rgba(30, 45, 50, 0.4);
+}
+
+.square_target:hover {
+  border-color: rgba(0, 255, 200, 0.3);
+  background: rgba(0, 255, 200, 0.06);
+  box-shadow: 0 0 14px rgba(0, 255, 200, 0.12);
+}
+
+.squareTargetLoaded {
+  background: rgba(0, 255, 200, 0.1) !important;
+  border-color: rgba(0, 255, 200, 0.35) !important;
+  box-shadow: 0 0 16px rgba(0, 255, 200, 0.18);
+}
+
+.squareTargetLoaded .squareLabel {
+  color: rgba(0, 255, 240, 0.95);
+}
+
+/* Capture squares */
+.square_capture {
+  border-color: rgba(180, 120, 255, 0.15);
+  background: rgba(45, 35, 55, 0.4);
+}
+
+.square_capture:hover {
+  border-color: rgba(180, 120, 255, 0.3);
+  background: rgba(180, 120, 255, 0.06);
+  box-shadow: 0 0 14px rgba(180, 120, 255, 0.12);
+}
+
+/* System squares */
+.square_system {
+  border-color: rgba(100, 200, 255, 0.12);
+  background: rgba(35, 45, 55, 0.4);
+}
+
+.square_system:hover {
+  border-color: rgba(100, 200, 255, 0.3);
+  background: rgba(100, 200, 255, 0.06);
+  box-shadow: 0 0 14px rgba(100, 200, 255, 0.12);
+}
+
+.squareStatus {
+  font-size: 0.38rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.squareStatus[data-status='online'] {
+  color: rgba(0, 220, 140, 0.95);
+  background: rgba(0, 220, 140, 0.12);
+  border: 1px solid rgba(0, 220, 140, 0.25);
+}
+
+.squareStatus[data-status='offline'] {
+  color: rgba(180, 160, 170, 0.9);
+  background: rgba(80, 80, 90, 0.3);
+  border: 1px solid rgba(120, 120, 130, 0.2);
+}
+
+/* Signal squares — awareness; subtle pulse when active */
+.square_signal {
+  border-color: rgba(100, 220, 255, 0.15);
+  background: rgba(30, 45, 55, 0.5);
+}
+
+.square_signal:hover {
+  border-color: rgba(100, 220, 255, 0.35);
+  background: rgba(100, 220, 255, 0.08);
+  box-shadow: 0 0 14px rgba(100, 220, 255, 0.15);
+}
+
+.squareSignalActive {
+  animation: signalPulse 2s ease-in-out infinite;
+}
+
+.squareSignalActive,
+.squareSignalActive:hover {
+  background: rgba(100, 220, 255, 0.12) !important;
+  border-color: rgba(100, 220, 255, 0.4) !important;
+  box-shadow: 0 0 18px rgba(100, 220, 255, 0.25);
+}
+
+@keyframes signalPulse {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(100, 220, 255, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(100, 220, 255, 0.4);
+  }
+}
+
+/* Location squares — physical world */
+.square_location {
+  border-color: rgba(180, 160, 255, 0.15);
+  background: rgba(45, 38, 55, 0.5);
+}
+
+.square_location:hover {
+  border-color: rgba(180, 160, 255, 0.35);
+  background: rgba(180, 160, 255, 0.08);
+  box-shadow: 0 0 14px rgba(180, 160, 255, 0.15);
+}
+
+.squareLocationActive {
+  background: rgba(180, 160, 255, 0.12) !important;
+  border-color: rgba(180, 160, 255, 0.4) !important;
+  box-shadow: 0 0 18px rgba(180, 160, 255, 0.22);
+}
+
+.squareDistance {
+  font-size: 0.4rem;
+  color: rgba(160, 180, 220, 0.8);
+  letter-spacing: 0.02em;
+}
+
+/* Event squares — things that happened */
+.square_event {
+  border-color: rgba(255, 180, 120, 0.15);
+  background: rgba(55, 45, 35, 0.5);
+}
+
+.square_event:hover {
+  border-color: rgba(255, 180, 120, 0.35);
+  background: rgba(255, 180, 120, 0.06);
+  box-shadow: 0 0 14px rgba(255, 180, 120, 0.12);
+}
+
+/* Outside World section */
+.outsideWorldSection {
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+
+.outsideWorldLabel {
+  font-size: 0.4rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: rgba(140, 160, 180, 0.6);
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(0, 255, 200, 0.08);
+}
+
+.outsideWorldGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 4px;
+  padding: 6px;
+  background: rgba(15, 18, 28, 0.6);
+  border: 1px solid rgba(0, 255, 200, 0.1);
+  border-radius: 8px;
+  box-sizing: border-box;
+  min-height: 72px;
+}
+
+/* Modals — HUD style (reuse command center aesthetic) */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.modalPanel {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(145deg, rgba(10, 12, 22, 0.92) 0%, rgba(6, 8, 16, 0.95) 100%);
+  border: 1px solid rgba(0, 255, 200, 0.2);
+  border-radius: 12px;
+  box-shadow:
+    0 0 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 180, 80, 0.08),
+    inset 0 0 60px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+
+.modalClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(255, 180, 80, 0.35);
+  border-radius: 6px;
+  background: rgba(255, 180, 80, 0.06);
+  color: rgba(255, 200, 140, 0.95);
+  font-size: 1.32rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  z-index: 2;
+}
+
+.modalClose:hover {
+  background: rgba(255, 180, 80, 0.14);
+  border-color: rgba(255, 180, 80, 0.5);
+}
+
+.modalClose:focus {
+  outline: none;
+}
+
+.modalClose:focus-visible {
+  outline: 2px solid rgba(255, 180, 80, 0.6);
+  outline-offset: 2px;
+}
+
+.modalTitle {
+  margin: 0;
+  padding: 14px 40px 6px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(0, 220, 255, 0.95);
+  text-shadow: 0 0 14px rgba(0, 220, 255, 0.3);
+}
+
+.modalSubtitle {
+  margin: 0 0 12px 0;
+  padding: 0 14px;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: rgba(160, 180, 200, 0.8);
+}
+
+.modalPreviewThumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(180deg, rgba(20, 30, 40, 0.9) 0%, rgba(30, 40, 50, 0.9) 100%);
+  margin: 0 14px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 255, 200, 0.15);
+}
+
+.modalMeta {
+  padding: 0 14px 12px;
+}
+
+.modalMetaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.62rem;
+  margin-bottom: 6px;
+}
+
+.modalMetaLabel {
+  color: rgba(140, 160, 180, 0.8);
+  letter-spacing: 0.04em;
+}
+
+.modalMetaValue {
+  color: rgba(200, 220, 230, 0.9);
+  font-weight: 500;
+}
+
+.modalMetaValue[data-status='online'] {
+  color: rgba(0, 220, 140, 0.95);
+}
+
+.modalMetaValue[data-status='offline'] {
+  color: rgba(200, 120, 100, 0.9);
+}
+
+.modalDescription {
+  margin: 8px 0 0 0;
+  font-size: 0.6rem;
+  color: rgba(160, 180, 200, 0.75);
+  line-height: 1.4;
+}
+
+.modalFooter {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px 14px;
+  border-top: 1px solid rgba(0, 255, 200, 0.12);
+  background: rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.modalBtnPrimary {
+  flex: 1;
+  padding: 6px 12px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(12, 12, 20, 0.95);
+  background: linear-gradient(180deg, rgba(255, 180, 80, 0.9), rgba(255, 140, 50, 0.85));
+  border: 1px solid rgba(255, 200, 120, 0.4);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modalBtnPrimary:hover {
+  background: linear-gradient(180deg, rgba(255, 190, 90, 0.95), rgba(255, 150, 60, 0.9));
+  box-shadow: 0 0 12px rgba(255, 180, 80, 0.3);
+}
+
+.modalBtnPrimary:focus {
+  outline: none;
+}
+
+.modalBtnPrimary:focus-visible {
+  outline: 2px solid rgba(255, 180, 80, 0.7);
+  outline-offset: 2px;
+}
+
+.modalBtnSecondary {
+  padding: 6px 12px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(0, 220, 255, 0.9);
+  background: rgba(0, 200, 255, 0.08);
+  border: 1px solid rgba(0, 200, 255, 0.35);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.modalBtnSecondary:hover {
+  background: rgba(0, 200, 255, 0.14);
+  border-color: rgba(0, 220, 255, 0.5);
+}
+
+.modalBtnSecondary:focus {
+  outline: none;
+}
+
+.modalBtnSecondary:focus-visible {
+  outline: 2px solid rgba(0, 220, 255, 0.5);
+  outline-offset: 2px;
+}

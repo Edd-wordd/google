@@ -1,0 +1,13 @@
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.skeletonChip {
+  width: 52px;
+  height: 36px;
+  background: rgba(30, 35, 45, 0.5);
+  border-radius: 6px;
+}

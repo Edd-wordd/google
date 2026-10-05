@@ -1,0 +1,1785 @@
+.panel {
+  composes: panel from './panel.module.css';
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.titleLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.controlCluster {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  perspective: 220px;
+}
+
+.hudControlBtn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 56px;
+  height: 56px;
+  padding: 6px;
+  background: linear-gradient(
+    165deg,
+    rgba(22, 24, 34, 0.85) 0%,
+    rgba(10, 12, 20, 0.92) 40%,
+    rgba(6, 8, 14, 0.95) 100%
+  );
+  border: 1px solid rgba(255, 180, 80, 0.25);
+  clip-path: polygon(
+    8px 0%,
+    100% 0%,
+    100% calc(100% - 8px),
+    calc(100% - 8px) 100%,
+    0% 100%,
+    0% 8px
+  );
+  cursor: pointer;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.04),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.5),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    inset 2px 0 6px rgba(0, 0, 0, 0.2),
+    inset -2px 0 6px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 0 12px rgba(255, 180, 80, 0.08);
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(255, 255, 255, 0.02) 3px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 8px, 12px 100%;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.hudControlBtn::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  pointer-events: none;
+  border-radius: 2px;
+  box-shadow: inset 0 0 14px rgba(0, 0, 0, 0.4);
+  clip-path: polygon(
+    6px 0%,
+    100% 0%,
+    100% calc(100% - 6px),
+    calc(100% - 6px) 100%,
+    0% 100%,
+    0% 6px
+  );
+}
+
+.hudControlLed {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(0, 200, 180, 0.5);
+  box-shadow: 0 0 4px rgba(0, 200, 180, 0.3);
+  pointer-events: none;
+  animation: hudControlLedPulse 2.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hudControlLed {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+@keyframes hudControlLedPulse {
+  0%, 100% { opacity: 0.4; box-shadow: 0 0 4px rgba(0, 200, 180, 0.2); }
+  50% { opacity: 0.9; box-shadow: 0 0 6px rgba(0, 200, 180, 0.4); }
+}
+
+.hudControlBtn:hover {
+  border-color: rgba(255, 180, 80, 0.4);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.05),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+    inset 2px 0 6px rgba(0, 0, 0, 0.18),
+    inset -2px 0 6px rgba(0, 0, 0, 0.18),
+    0 6px 16px rgba(0, 0, 0, 0.4),
+    0 2px 6px rgba(0, 0, 0, 0.25),
+    0 0 18px rgba(255, 180, 80, 0.15),
+    0 0 1px rgba(255, 180, 80, 0.2);
+}
+
+.hudControlBtn:focus {
+  outline: none;
+}
+
+.hudControlBtn:focus-visible {
+  outline: 2px solid rgba(255, 180, 80, 0.5);
+  outline-offset: 2px;
+}
+
+.hudControlScan {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 180, 80, 0.08) 35%,
+    rgba(255, 180, 80, 0.12) 50%,
+    rgba(255, 180, 80, 0.08) 65%,
+    transparent 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hudControlBtn:hover .hudControlScan {
+  animation: hudControlScanSweep 2.4s ease-in-out infinite;
+}
+
+.hudControlBtn:active .hudControlScan {
+  animation: hudControlPressFlash 0.3s ease-out 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hudControlBtn:hover .hudControlScan,
+  .hudControlBtn:active .hudControlScan {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+@keyframes hudControlPressFlash {
+  0% { opacity: 0; transform: translateX(-100%); }
+  40% { opacity: 0.5; transform: translateX(30%); }
+  100% { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes hudControlScanSweep {
+  0% { opacity: 0; transform: translateX(-100%); }
+  15% { opacity: 0.4; transform: translateX(0%); }
+  50% { opacity: 0; transform: translateX(100%); }
+  100% { opacity: 0; transform: translateX(100%); }
+}
+
+.hudControlIcon {
+  font-size: 1.2rem;
+  color: rgba(255, 180, 80, 0.85);
+  line-height: 1;
+  transition: color 0.18s ease;
+}
+
+.hudControlBtn:hover .hudControlIcon {
+  color: rgba(255, 200, 120, 0.95);
+}
+
+.hudControlLabel {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(255, 200, 120, 0.9);
+  text-transform: uppercase;
+}
+
+.hudControlSub {
+  font-size: 0.46rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 180, 80, 0.35);
+  text-transform: uppercase;
+}
+
+.exploreContext {
+  margin: 0 0 8px 0;
+  font-size: 0.58rem;
+  color: rgba(255, 180, 80, 0.8);
+  letter-spacing: 0.04em;
+}
+
+.title {
+  composes: title from './panel.module.css';
+  font-size: 0.86rem;
+  letter-spacing: 0.28em;
+  text-shadow:
+    0 0 12px rgba(255, 180, 80, 0.5),
+    0 0 24px rgba(255, 180, 80, 0.25);
+}
+
+.activePill {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  color: rgba(0, 220, 140, 0.95);
+  background: rgba(0, 220, 140, 0.12);
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(0, 220, 140, 0.35);
+  box-shadow: 0 0 10px rgba(0, 220, 140, 0.15);
+}
+
+/* Repo carousel — tactical HUD feed */
+.repoSection {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  height: 220px;
+  min-width: 0;
+  flex-shrink: 0;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+
+.repoCarousel {
+  flex: 1;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(
+    155deg,
+    rgba(12, 18, 28, 0.95) 0%,
+    rgba(8, 12, 20, 0.98) 100%
+  );
+  border: 1px solid rgba(80, 120, 140, 0.2);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    inset 0 0 30px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.repoCarousel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(100, 140, 160, 0.3), transparent);
+  z-index: 2;
+}
+
+.repoCarousel::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  right: 25%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(80, 120, 140, 0.2), transparent);
+  z-index: 2;
+}
+
+.repoCarousel:focus {
+  outline: none;
+}
+
+.repoCarousel:focus-visible {
+  outline: 1px solid rgba(140, 170, 190, 0.4);
+  outline-offset: 2px;
+}
+
+.repoCarouselTrack {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+}
+
+.repoSlide {
+  flex: 0 0 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.repoSlide::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 0;
+  width: 3px;
+  background: linear-gradient(
+    180deg, 
+    rgba(120, 160, 180, 0.1) 0%,
+    rgba(140, 180, 200, 0.4) 50%,
+    rgba(120, 160, 180, 0.1) 100%
+  );
+  border-radius: 0 3px 3px 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.repoSlide:last-child {
+  border-right: none;
+}
+
+.repoSlideActive {
+  background: radial-gradient(
+    ellipse at top left,
+    rgba(100, 140, 160, 0.06) 0%,
+    transparent 50%
+  );
+}
+
+.repoSlideActive::before {
+  opacity: 1;
+}
+
+.slideTopRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.hudGridOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0, transparent 12px, rgba(100, 120, 140, 0.02) 13px);
+  background-size: 100% 16px;
+  opacity: 0.4;
+}
+
+/* Activity header (top-left) */
+.activityHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.timestamp {
+  font-size: 0.52rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(120, 160, 180, 0.8);
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  background: rgba(60, 80, 100, 0.15);
+  border-radius: 4px;
+  border: 1px solid rgba(80, 110, 130, 0.15);
+  display: inline-flex;
+  align-self: flex-start;
+}
+
+.repoName {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.9rem;
+  font-family: ui-monospace, monospace;
+  font-weight: 600;
+  color: rgba(200, 220, 235, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.01em;
+}
+
+/* Status core (top-right) */
+.statusCore {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.statusPill {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+.statusPillActive {
+  position: relative;
+}
+
+.statusScanSweep {
+  display: none;
+}
+
+.statusGlowPulse {
+  display: none;
+}
+
+/* Operational line */
+.operationalLine {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 0.52rem;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.04em;
+  color: rgba(140, 170, 190, 0.7);
+  padding: 6px 10px;
+  margin: 2px 0;
+  background: rgba(40, 55, 70, 0.2);
+  border-radius: 6px;
+  border: 1px solid rgba(80, 100, 120, 0.1);
+}
+
+.opSegment {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 4px;
+}
+
+.opDivider {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(100, 130, 150, 0.3);
+  flex-shrink: 0;
+}
+
+.liveSegment {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: rgba(100, 200, 160, 0.85);
+  font-weight: 500;
+}
+
+.livePulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(100, 200, 160, 0.8);
+  box-shadow: 0 0 6px rgba(100, 200, 160, 0.4);
+  animation: livePulseDot 1.5s ease-in-out infinite;
+}
+
+@keyframes livePulseDot {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.liveMuted {
+  color: rgba(100, 120, 140, 0.4);
+}
+
+/* Last activity */
+.lastActivity {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.54rem;
+  color: rgba(150, 170, 190, 0.7);
+  letter-spacing: 0.03em;
+  padding: 3px 0;
+}
+
+.activityIcon {
+  font-size: 0.6rem;
+  color: rgba(120, 160, 180, 0.7);
+}
+
+/* Focus thread */
+.focusThread {
+  font-size: 0.54rem;
+  font-family: ui-monospace, monospace;
+  color: rgba(160, 140, 200, 0.75);
+  letter-spacing: 0.04em;
+  padding: 4px 8px;
+  background: rgba(100, 80, 140, 0.1);
+  border-radius: 4px;
+  border-left: 2px solid rgba(160, 140, 200, 0.35);
+}
+
+/* Next action */
+.nextAction {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.54rem;
+  color: rgba(200, 170, 120, 0.75);
+  letter-spacing: 0.03em;
+  padding: 4px 8px;
+  background: rgba(140, 100, 60, 0.1);
+  border-radius: 4px;
+  border-left: 2px solid rgba(200, 160, 100, 0.35);
+}
+
+.nextPrefix {
+  color: rgba(120, 180, 150, 0.7);
+  font-size: 0.52rem;
+}
+
+/* Health indicator */
+.healthIndicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Footer: linked assets + scan summary */
+.footerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid rgba(100, 120, 140, 0.1);
+}
+
+.linkedAssetsRow {
+  display: flex;
+  gap: 6px;
+}
+
+.linkedAssetIcon {
+  font-size: 0.55rem;
+  color: rgba(100, 130, 150, 0.3);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(60, 80, 100, 0.1);
+  border: 1px solid rgba(80, 100, 120, 0.1);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.linkedAssetLinked {
+  color: rgba(130, 180, 170, 0.8);
+  background: rgba(80, 140, 130, 0.12);
+  border-color: rgba(100, 160, 150, 0.2);
+}
+
+.scanSummary {
+  font-size: 0.5rem;
+  color: rgba(120, 140, 160, 0.5);
+  letter-spacing: 0.03em;
+  font-family: ui-monospace, monospace;
+}
+
+.slideScanBand {
+  display: none;
+}
+
+/* ECG chip for Live indicator */
+.liveEcgChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.liveEcgSvg {
+  width: 16px;
+  height: 12px;
+  vertical-align: middle;
+}
+
+.liveEcgPath {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: liveEcgDraw 2.2s ease-in-out infinite;
+}
+
+.liveEcgPathStatic {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+
+@keyframes liveEcgDraw {
+  0%, 100% {
+    stroke-dashoffset: 100;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liveEcgPath {
+    animation: none;
+  }
+}
+
+.liveLabel {
+  font-size: 0.56rem;
+  color: rgba(0, 220, 140, 0.9);
+}
+
+.liveDot {
+  color: rgba(0, 220, 140, 0.8);
+}
+
+/* Dot indicator (vertical nav) */
+.repoDots {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 5px;
+  flex-shrink: 0;
+  background: rgba(30, 40, 50, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(80, 100, 120, 0.12);
+}
+
+.repoDot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  padding: 0;
+  border: 1px solid rgba(100, 130, 150, 0.3);
+  background: rgba(80, 110, 130, 0.15);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.repoDot::before {
+  display: none;
+}
+
+.repoDot:hover {
+  background: rgba(120, 150, 170, 0.3);
+  border-color: rgba(140, 170, 190, 0.4);
+}
+
+.repoDotActive {
+  background: rgba(140, 180, 200, 0.7);
+  border-color: rgba(160, 190, 210, 0.5);
+  transform: scale(1.2);
+}
+
+.repoDot:focus {
+  outline: none;
+}
+
+.repoDot:focus-visible {
+  outline: 2px solid rgba(0, 200, 255, 0.6);
+  outline-offset: 2px;
+}
+
+.statusPill {
+  font-size: 0.48rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 2px 5px;
+  border-radius: 4px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.statusActive {
+  color: rgba(0, 255, 150, 0.95);
+  background: rgba(0, 255, 150, 0.15);
+  border: 1px solid rgba(0, 255, 150, 0.4);
+  box-shadow: 0 0 12px rgba(0, 255, 150, 0.25), inset 0 0 8px rgba(0, 255, 150, 0.1);
+  text-shadow: 0 0 8px rgba(0, 255, 150, 0.5);
+}
+
+.statusIdle {
+  color: rgba(150, 160, 180, 0.8);
+  background: rgba(100, 120, 150, 0.1);
+  border: 1px solid rgba(100, 120, 150, 0.2);
+}
+
+.statusDeploying {
+  color: rgba(255, 200, 80, 0.95);
+  background: rgba(255, 200, 80, 0.15);
+  border: 1px solid rgba(255, 200, 80, 0.35);
+  box-shadow: 0 0 12px rgba(255, 200, 80, 0.2);
+  text-shadow: 0 0 8px rgba(255, 200, 80, 0.4);
+  animation: deployingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes deployingPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(255, 200, 80, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(255, 200, 80, 0.4); }
+}
+
+.openLinkBtn {
+  width: 26px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  color: rgba(255, 180, 80, 0.7);
+  background: transparent;
+  border: 1px solid rgba(255, 180, 80, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.openLinkBtn:hover {
+  color: rgba(255, 180, 80, 0.95);
+  border-color: rgba(255, 180, 80, 0.4);
+  box-shadow: 0 0 10px rgba(255, 180, 80, 0.15);
+}
+
+.openLinkBtn:focus {
+  outline: none;
+}
+
+.openLinkBtn:focus-visible {
+  outline: 2px solid rgba(255, 180, 80, 0.5);
+  outline-offset: 1px;
+}
+
+.repoSummary {
+  font-size: 0.66rem;
+  color: rgba(160, 160, 180, 0.7);
+  letter-spacing: 0.05em;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* INFRA DOCK */
+.infraDock {
+  margin-bottom: 10px;
+  padding: 6px 0 8px;
+}
+
+.infraHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(0, 200, 255, 0.1);
+}
+
+.infraTitle {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: rgba(0, 220, 255, 0.9);
+  text-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
+}
+
+.infraSub {
+  font-size: 0.4rem;
+  letter-spacing: 0.1em;
+  color: rgba(0, 200, 255, 0.4);
+}
+
+.infraTiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.infraTile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 70px;
+  height: 70px;
+  padding: 8px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(20, 35, 50, 0.9) 0%,
+    rgba(10, 18, 28, 0.95) 100%
+  );
+  border: 2px solid rgba(0, 200, 255, 0.25);
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: visible;
+  font-family: inherit;
+  box-shadow:
+    0 0 20px rgba(0, 200, 255, 0.1),
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 0 15px rgba(0, 200, 255, 0.05);
+  transition: all 0.25s ease;
+}
+
+.infraTile::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 14px;
+  border: 1px dashed rgba(0, 200, 255, 0.15);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.infraTile:hover::before {
+  opacity: 1;
+  animation: infraRingSpin 8s linear infinite;
+}
+
+.infraTile:hover {
+  border-color: rgba(0, 255, 220, 0.5);
+  box-shadow:
+    0 0 30px rgba(0, 255, 220, 0.2),
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    inset 0 0 20px rgba(0, 255, 220, 0.08);
+  transform: translateY(-4px) scale(1.05);
+}
+
+.infraTile:focus {
+  outline: none;
+}
+
+.infraTile:focus-visible {
+  outline: 2px solid rgba(0, 255, 220, 0.6);
+  outline-offset: 3px;
+}
+
+.infraTileActive {
+  border-color: rgba(0, 255, 200, 0.6);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 60, 80, 0.9) 0%,
+    rgba(0, 30, 45, 0.95) 100%
+  );
+  box-shadow:
+    0 0 35px rgba(0, 255, 200, 0.25),
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 0 25px rgba(0, 255, 200, 0.1);
+}
+
+.infraTileScan {
+  display: none;
+}
+
+@keyframes infraRingSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .infraTile:hover::before {
+    animation: none;
+  }
+  .infraTile:hover {
+    transform: none;
+  }
+}
+
+@keyframes infraTileScanSweep {
+  0% { opacity: 0; transform: translateX(-100%); }
+  15% { opacity: 0.6; transform: translateX(0%); }
+  50% { opacity: 0; transform: translateX(100%); }
+  100% { opacity: 0; transform: translateX(100%); }
+}
+
+.infraTileGlyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: rgba(0, 255, 220, 0.9);
+  text-shadow: 0 0 15px rgba(0, 255, 220, 0.6);
+  flex-shrink: 0;
+}
+
+.infraTileInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  min-width: 0;
+}
+
+.infraTileLabel {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(0, 255, 220, 0.95);
+  text-shadow: 0 0 8px rgba(0, 255, 220, 0.4);
+  text-align: center;
+}
+
+.infraTileType {
+  font-size: 0.36rem;
+  letter-spacing: 0.06em;
+  color: rgba(100, 180, 200, 0.5);
+  text-align: center;
+}
+
+.infraTileStatus {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  font-size: 0;
+}
+
+.infraStatusOnline {
+  background: rgba(0, 255, 150, 0.9);
+  box-shadow: 0 0 10px rgba(0, 255, 150, 0.6);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+.infraStatusOffline {
+  background: rgba(255, 80, 80, 0.7);
+  box-shadow: 0 0 6px rgba(255, 80, 80, 0.4);
+}
+
+.infraStatusLink {
+  background: rgba(255, 200, 100, 0.8);
+  box-shadow: 0 0 8px rgba(255, 200, 100, 0.5);
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+.infraTileChevron {
+  display: none;
+}
+
+/* Target lock brackets for active tile */
+.infraTileBracketTL,
+.infraTileBracketBR {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+
+.infraTileBracketTL {
+  top: 4px;
+  left: 4px;
+  border-top: 2px solid rgba(0, 255, 220, 0.8);
+  border-left: 2px solid rgba(0, 255, 220, 0.8);
+  border-top-left-radius: 4px;
+  box-shadow: -2px -2px 6px rgba(0, 255, 220, 0.3);
+  animation: infraBracketGlow 1.2s ease-in-out infinite;
+}
+
+.infraTileBracketBR {
+  bottom: 4px;
+  right: 4px;
+  border-bottom: 2px solid rgba(0, 255, 220, 0.8);
+  border-right: 2px solid rgba(0, 255, 220, 0.8);
+  border-bottom-right-radius: 4px;
+  box-shadow: 2px 2px 6px rgba(0, 255, 220, 0.3);
+  animation: infraBracketGlow 1.2s ease-in-out infinite 0.6s;
+}
+
+@keyframes infraBracketGlow {
+  0%, 100% { 
+    opacity: 0.7;
+    box-shadow: 0 0 4px rgba(0, 255, 220, 0.2);
+  }
+  50% { 
+    opacity: 1;
+    box-shadow: 0 0 10px rgba(0, 255, 220, 0.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .infraTileBracketTL,
+  .infraTileBracketBR {
+    animation: none;
+    opacity: 0.9;
+  }
+}
+
+/* INFRA DRAWER */
+.infraDrawer {
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.infraDrawerInner {
+  padding: 12px 14px;
+  background: linear-gradient(
+    160deg,
+    rgba(10, 25, 40, 0.85) 0%,
+    rgba(5, 12, 22, 0.9) 100%
+  );
+  border: 1px solid rgba(0, 200, 255, 0.2);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 20px rgba(0, 0, 0, 0.3),
+    0 0 15px rgba(0, 200, 255, 0.08);
+}
+
+.infraDrawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 200, 255, 0.12);
+}
+
+.infraDrawerTitle {
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: rgba(0, 220, 255, 0.95);
+  text-shadow: 0 0 10px rgba(0, 200, 255, 0.35);
+}
+
+.infraDrawerClose {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: rgba(0, 200, 255, 0.6);
+  background: rgba(0, 200, 255, 0.08);
+  border: 1px solid rgba(0, 200, 255, 0.2);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.infraDrawerClose:hover {
+  color: rgba(255, 100, 100, 0.95);
+  background: rgba(255, 100, 100, 0.12);
+  border-color: rgba(255, 100, 100, 0.3);
+  box-shadow: 0 0 10px rgba(255, 100, 100, 0.2);
+}
+
+.infraDrawerClose:focus {
+  outline: none;
+}
+
+.infraDrawerClose:focus-visible {
+  outline: 2px solid rgba(0, 200, 255, 0.6);
+  outline-offset: 2px;
+}
+
+.infraDrawerRows {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.infraDrawerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.5rem;
+}
+
+.infraDrawerLabel {
+  color: rgba(100, 160, 200, 0.7);
+  letter-spacing: 0.06em;
+}
+
+.infraDrawerValue {
+  color: rgba(0, 240, 220, 0.95);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 6px rgba(0, 240, 220, 0.2);
+}
+
+.infraDrawerActions {
+  display: flex;
+  gap: 8px;
+}
+
+.infraDrawerBtn {
+  flex: 1;
+  padding: 7px 10px;
+  font-size: 0.44rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(0, 220, 255, 0.95);
+  background: rgba(0, 200, 255, 0.1);
+  border: 1px solid rgba(0, 200, 255, 0.25);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 0 8px rgba(0, 200, 255, 0.08);
+}
+
+.infraDrawerBtn:hover {
+  background: rgba(0, 200, 255, 0.18);
+  border-color: rgba(0, 255, 220, 0.4);
+  box-shadow: 0 0 15px rgba(0, 255, 220, 0.15);
+  transform: translateY(-1px);
+}
+
+.infraDrawerBtn:focus {
+  outline: none;
+}
+
+.infraDrawerBtn:focus-visible {
+  outline: 2px solid rgba(0, 200, 255, 0.6);
+  outline-offset: 2px;
+}
+
+.quickActions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+/* HUD tab / notched button style */
+.hudTabBtn {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 12px;
+  font: inherit;
+  color: rgba(220, 220, 230, 0.9);
+  background: linear-gradient(
+    180deg,
+    rgba(50, 52, 65, 0.7) 0%,
+    rgba(30, 32, 42, 0.75) 100%
+  );
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  position: relative;
+  clip-path: polygon(
+    10px 0%,
+    100% 0%,
+    100% 100%,
+    10px 100%,
+    0% calc(50% + 8px),
+    0% calc(50% - 8px)
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 180, 80, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0 8px rgba(255, 180, 80, 0.04);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.hudTabBtn:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(60, 62, 75, 0.75) 0%,
+    rgba(40, 42, 55, 0.8) 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 180, 80, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 12px rgba(255, 180, 80, 0.12);
+  transform: translateY(-1px);
+}
+
+.hudTabBtn:active {
+  transform: translateY(0);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 180, 80, 0.15),
+    0 0 6px rgba(255, 180, 80, 0.06);
+}
+
+.hudTabBtn:focus {
+  outline: none;
+}
+
+.hudTabBtn:focus-visible {
+  outline: 2px solid rgba(255, 180, 80, 0.5);
+  outline-offset: 2px;
+}
+
+.hudTabIcon {
+  flex-shrink: 0;
+  width: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: rgba(255, 180, 80, 0.8);
+}
+
+.hudTabIcon:empty {
+  display: none;
+}
+
+.hudTabText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.hudTabLabel {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-caps: small-caps;
+  line-height: 1.2;
+}
+
+.hudTabSub {
+  font-size: 0.3rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: rgba(160, 170, 190, 0.55);
+  line-height: 1;
+}
+
+.hudTabIndicator {
+  flex-shrink: 0;
+  position: relative;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 5px solid rgba(255, 180, 80, 0.35);
+  margin-left: 4px;
+}
+
+@media (max-width: 420px) {
+  .hudTabSub {
+    display: none;
+  }
+}
+
+.scanHelper {
+  margin: 0 0 10px 0;
+  font-size: 0.6rem;
+  color: rgba(140, 150, 170, 0.7);
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+}
+
+.section {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sectionTitle {
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 100, 150, 0.8);
+  margin-bottom: 4px;
+}
+
+.sectionContent {
+  font-size: 0.72rem;
+  color: rgba(200, 200, 220, 0.85);
+}
+
+.recentScans {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.recentScansTitle {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 180, 80, 0.75);
+  margin-bottom: 8px;
+}
+
+.recentScansList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.recentScanItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 0.7rem;
+}
+
+.recentScanItem:last-child {
+  border-bottom: none;
+}
+
+.scanDocIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  color: rgba(0, 200, 255, 0.5);
+  border: 1px solid rgba(0, 200, 255, 0.2);
+  border-radius: 2px;
+  background: rgba(20, 30, 45, 0.5);
+}
+
+.recentScanInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.recentScanName {
+  color: rgba(220, 225, 235, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recentScanTag {
+  font-size: 0.6rem;
+  color: rgba(140, 155, 175, 0.75);
+  letter-spacing: 0.02em;
+}
+
+.recentScansEmpty {
+  margin: 0;
+  font-size: 0.66rem;
+  color: rgba(140, 150, 170, 0.6);
+  font-style: italic;
+}
+
+/* Cyberpunk round OPEN REPO button */
+.cyberOpenBtn {
+  position: relative;
+  flex-shrink: 0;
+  margin-left: auto;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(0, 255, 200, 0.15) 0%, rgba(120, 80, 255, 0.2) 100%);
+  border: 1.5px solid rgba(0, 255, 200, 0.5);
+  cursor: pointer;
+  text-decoration: none;
+  z-index: 10;
+  overflow: visible;
+  box-shadow:
+    0 0 12px rgba(0, 255, 200, 0.3),
+    0 0 24px rgba(120, 80, 255, 0.15),
+    inset 0 0 8px rgba(0, 255, 200, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.cyberOpenBtn:hover {
+  box-shadow:
+    0 0 20px rgba(0, 255, 200, 0.5),
+    0 0 40px rgba(120, 80, 255, 0.3),
+    inset 0 0 12px rgba(0, 255, 200, 0.2);
+}
+
+.cyberOpenRing {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 255, 200, 0.25);
+  pointer-events: none;
+  animation: cyberPulse 2s ease-in-out infinite;
+}
+
+.cyberOpenRing2 {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px dashed rgba(120, 80, 255, 0.2);
+  pointer-events: none;
+  animation: cyberSpin 8s linear infinite;
+}
+
+.cyberOpenGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(0, 255, 200, 0.3), transparent 60%);
+  pointer-events: none;
+}
+
+.cyberOpenIcon {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(0, 255, 200, 0.95);
+  text-shadow: 0 0 8px rgba(0, 255, 200, 0.6);
+  z-index: 1;
+}
+
+@keyframes cyberPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.2;
+  }
+}
+
+@keyframes cyberSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Cyberpunk SCAN button */
+.cyberScanBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, rgba(255, 100, 50, 0.08) 0%, rgba(255, 180, 80, 0.05) 100%);
+  border: 1px solid rgba(255, 140, 60, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  font-family: inherit;
+  text-align: left;
+  box-shadow:
+    0 0 12px rgba(255, 140, 60, 0.15),
+    inset 0 0 20px rgba(255, 100, 50, 0.03);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cyberScanBtn:hover {
+  border-color: rgba(255, 140, 60, 0.5);
+  box-shadow:
+    0 0 20px rgba(255, 140, 60, 0.25),
+    inset 0 0 30px rgba(255, 100, 50, 0.05);
+}
+
+.cyberScanGlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 140, 60, 0.1), transparent);
+  pointer-events: none;
+  animation: scanGlowSweep 3s ease-in-out infinite;
+}
+
+.cyberScanBeam {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 40%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 140, 60, 0.8), transparent);
+  pointer-events: none;
+  animation: scanBeamMove 2.5s ease-in-out infinite;
+}
+
+.cyberScanIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background: rgba(255, 140, 60, 0.15);
+  border: 1px solid rgba(255, 140, 60, 0.3);
+  color: rgba(255, 160, 80, 0.9);
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(255, 140, 60, 0.2);
+}
+
+.cyberScanText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cyberScanLabel {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(255, 180, 100, 0.95);
+  text-shadow: 0 0 8px rgba(255, 140, 60, 0.3);
+}
+
+.cyberScanSub {
+  font-size: 0.5rem;
+  letter-spacing: 0.04em;
+  color: rgba(200, 180, 160, 0.6);
+}
+
+.cyberScanCornerTL,
+.cyberScanCornerBR {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+}
+
+.cyberScanCornerTL {
+  top: 3px;
+  left: 3px;
+  border-top: 1px solid rgba(255, 140, 60, 0.5);
+  border-left: 1px solid rgba(255, 140, 60, 0.5);
+}
+
+.cyberScanCornerBR {
+  bottom: 3px;
+  right: 3px;
+  border-bottom: 1px solid rgba(255, 140, 60, 0.5);
+  border-right: 1px solid rgba(255, 140, 60, 0.5);
+}
+
+@keyframes scanGlowSweep {
+  0%, 100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(250%);
+    opacity: 1;
+  }
+}
+
+@keyframes scanBeamMove {
+  0%, 100% {
+    left: -40%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* Cyberpunk EDITOR / REVIEW control buttons */
+.cyberControlBtn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 56px;
+  height: 56px;
+  padding: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: visible;
+  font-family: inherit;
+  transition: box-shadow 0.2s ease;
+}
+
+.cyberControlBtn:focus {
+  outline: none;
+}
+
+.cyberControlBtn:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 3px;
+}
+
+/* Editor button - cyan/teal theme */
+.cyberControlEditor {
+  background: linear-gradient(145deg, rgba(0, 220, 200, 0.12) 0%, rgba(0, 180, 220, 0.08) 100%);
+  border: 1.5px solid rgba(0, 220, 200, 0.4);
+  box-shadow:
+    0 0 15px rgba(0, 220, 200, 0.2),
+    0 0 30px rgba(0, 180, 220, 0.1),
+    inset 0 0 12px rgba(0, 220, 200, 0.08);
+}
+
+.cyberControlEditor:hover {
+  box-shadow:
+    0 0 25px rgba(0, 220, 200, 0.35),
+    0 0 50px rgba(0, 180, 220, 0.15),
+    inset 0 0 15px rgba(0, 220, 200, 0.12);
+}
+
+.cyberControlEditor .cyberControlIcon {
+  color: rgba(0, 240, 220, 0.95);
+  text-shadow: 0 0 10px rgba(0, 220, 200, 0.6);
+}
+
+.cyberControlEditor .cyberControlLabel {
+  color: rgba(0, 220, 200, 0.85);
+}
+
+.cyberControlEditor .cyberControlRing {
+  border-color: rgba(0, 220, 200, 0.3);
+}
+
+.cyberControlEditor .cyberControlPulse {
+  background: rgba(0, 220, 200, 0.4);
+  box-shadow: 0 0 8px rgba(0, 220, 200, 0.5);
+}
+
+/* Review button - magenta/purple theme */
+.cyberControlReview {
+  background: linear-gradient(145deg, rgba(200, 80, 255, 0.12) 0%, rgba(255, 100, 180, 0.08) 100%);
+  border: 1.5px solid rgba(200, 80, 255, 0.4);
+  box-shadow:
+    0 0 15px rgba(200, 80, 255, 0.2),
+    0 0 30px rgba(255, 100, 180, 0.1),
+    inset 0 0 12px rgba(200, 80, 255, 0.08);
+}
+
+.cyberControlReview:hover {
+  box-shadow:
+    0 0 25px rgba(200, 80, 255, 0.35),
+    0 0 50px rgba(255, 100, 180, 0.15),
+    inset 0 0 15px rgba(200, 80, 255, 0.12);
+}
+
+.cyberControlReview .cyberControlIcon {
+  color: rgba(220, 100, 255, 0.95);
+  text-shadow: 0 0 10px rgba(200, 80, 255, 0.6);
+}
+
+.cyberControlReview .cyberControlLabel {
+  color: rgba(200, 80, 255, 0.85);
+}
+
+.cyberControlReview .cyberControlRing {
+  border-color: rgba(200, 80, 255, 0.3);
+}
+
+.cyberControlReview .cyberControlPulse {
+  background: rgba(200, 80, 255, 0.4);
+  box-shadow: 0 0 8px rgba(200, 80, 255, 0.5);
+}
+
+/* Repo button - green/teal theme */
+.cyberControlRepo {
+  background: linear-gradient(145deg, rgba(0, 255, 150, 0.12) 0%, rgba(0, 200, 120, 0.08) 100%);
+  border: 1.5px solid rgba(0, 255, 150, 0.4);
+  box-shadow:
+    0 0 15px rgba(0, 255, 150, 0.2),
+    0 0 30px rgba(0, 200, 120, 0.1),
+    inset 0 0 12px rgba(0, 255, 150, 0.08);
+  text-decoration: none;
+}
+
+.cyberControlRepo:hover {
+  box-shadow:
+    0 0 25px rgba(0, 255, 150, 0.35),
+    0 0 50px rgba(0, 200, 120, 0.15),
+    inset 0 0 15px rgba(0, 255, 150, 0.12);
+}
+
+.cyberControlRepo .cyberControlIcon {
+  color: rgba(0, 255, 150, 0.95);
+  text-shadow: 0 0 10px rgba(0, 255, 150, 0.6);
+}
+
+.cyberControlRepo .cyberControlLabel {
+  color: rgba(0, 255, 150, 0.85);
+}
+
+.cyberControlRepo .cyberControlRing {
+  border-color: rgba(0, 255, 150, 0.3);
+}
+
+.cyberControlRepo .cyberControlPulse {
+  background: rgba(0, 255, 150, 0.4);
+  box-shadow: 0 0 8px rgba(0, 255, 150, 0.5);
+}
+
+.cyberControlRing {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px dashed;
+  pointer-events: none;
+  animation: controlRingSpin 12s linear infinite;
+}
+
+.cyberControlPulse {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: controlPulseBeat 1.5s ease-in-out infinite;
+}
+
+.cyberControlIcon {
+  font-size: 16px;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.cyberControlLabel {
+  font-size: 0.42rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  z-index: 1;
+}
+
+@keyframes controlRingSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes controlPulseBeat {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
+}
+

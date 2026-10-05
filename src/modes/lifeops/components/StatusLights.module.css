@@ -1,0 +1,82 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.lights {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lightRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sourceLabel {
+  font-size: 0.44rem;
+  letter-spacing: 0.06em;
+  color: rgba(140, 150, 170, 0.8);
+  width: 52px;
+}
+
+.led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(60, 65, 75, 0.8);
+  flex-shrink: 0;
+}
+
+.ledOn {
+  background: rgba(0, 220, 160, 0.9);
+  box-shadow: 0 0 6px rgba(0, 220, 160, 0.5);
+}
+
+.ledBlink {
+  box-shadow: 0 0 8px rgba(255, 200, 100, 0.6);
+}
+
+.syncTime {
+  font-size: 0.42rem;
+  color: rgba(120, 130, 150, 0.75);
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.syncBtn {
+  padding: 2px 6px;
+  font-size: 0.4rem;
+  font-family: inherit;
+  letter-spacing: 0.05em;
+  color: rgba(0, 220, 200, 0.9);
+  background: rgba(0, 200, 180, 0.08);
+  border: 1px solid rgba(0, 220, 200, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.syncBtn:hover:not(:disabled) {
+  background: rgba(0, 200, 180, 0.14);
+  border-color: rgba(0, 220, 200, 0.35);
+}
+
+.syncBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.syncBtn:focus-visible {
+  outline: 2px solid rgba(0, 220, 200, 0.5);
+  outline-offset: 1px;
+}

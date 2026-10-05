@@ -1,0 +1,198 @@
+/* Focus Mix — combined Today + Month dual-ring donut */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  padding: 5px 8px 6px;
+  background: rgba(8, 10, 16, 0.4);
+  border: 1px solid rgba(255, 180, 80, 0.06);
+  border-left: 2px solid rgba(255, 180, 80, 0.18);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 2px 100%, 0 calc(100% - 2px));
+}
+
+.titleTop {
+  padding: 2px 8px;
+  font-size: 0.46rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  font-variant-caps: small-caps;
+  color: rgba(255, 180, 80, 0.85);
+  background: rgba(255, 180, 80, 0.05);
+  border: 1px solid rgba(255, 180, 80, 0.15);
+  border-radius: 3px;
+  text-align: center;
+  align-self: flex-start;
+  box-shadow: 0 0 6px rgba(255, 180, 80, 0.06);
+}
+
+.body {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.chartArea {
+  position: relative;
+  flex-shrink: 0;
+  width: 88px;
+  height: 88px;
+}
+
+.ringSvg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 2px rgba(255, 180, 80, 0.08));
+}
+
+.innerRing {
+  stroke: rgba(255, 180, 80, 0.15);
+}
+
+.baseRing {
+  stroke: rgba(255, 180, 80, 0.1);
+}
+
+.segmentGroup {
+  transform-origin: 50% 50%;
+}
+
+.segmentPath {
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.segmentPath.segmentDimmed {
+  opacity: 0.35;
+}
+
+.tick {
+  stroke: rgba(255, 180, 80, 0.12);
+}
+
+.centerContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.centerRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.4rem;
+  line-height: 1.1;
+}
+
+.centerTag {
+  font-variant-caps: small-caps;
+  letter-spacing: 0.06em;
+  color: rgba(130, 140, 160, 0.6);
+}
+
+.centerValue {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 200, 120, 0.95);
+  text-shadow: 0 0 6px rgba(255, 180, 80, 0.25);
+}
+
+.centerLabel {
+  font-variant-caps: small-caps;
+  letter-spacing: 0.04em;
+  color: rgba(150, 160, 180, 0.7);
+}
+
+.legend {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.legendHeader {
+  display: grid;
+  grid-template-columns: 8px 1fr 24px 24px;
+  gap: 4px;
+  align-items: center;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-size: 0.4rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-caps: small-caps;
+  color: rgba(120, 130, 150, 0.6);
+}
+
+.legendColDot {
+  width: 4px;
+  height: 4px;
+}
+
+.legendColMode {
+  min-width: 0;
+}
+
+.legendColPct {
+  text-align: right;
+}
+
+.legendRow {
+  display: grid;
+  grid-template-columns: auto 1fr 24px 24px;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.5rem;
+  padding: 2px 0;
+  cursor: default;
+  transition: background 0.15s ease;
+  border-radius: 2px;
+}
+
+.legendRow:hover {
+  background: rgba(255, 180, 80, 0.04);
+}
+
+.legendRow[data-label='Dev'] .legendName { color: rgba(255, 190, 100, 0.85); }
+.legendRow[data-label='Create'] .legendName { color: rgba(170, 150, 220, 0.85); }
+.legendRow[data-label='Astro'] .legendName { color: rgba(150, 135, 200, 0.85); }
+.legendRow[data-label='Print'] .legendName { color: rgba(220, 160, 80, 0.85); }
+.legendRow[data-label='Explore'] .legendName { color: rgba(0, 180, 170, 0.85); }
+.legendRow[data-label='Other'] .legendName { color: rgba(120, 130, 150, 0.75); }
+
+.legendDot {
+  flex-shrink: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+}
+
+.legendName {
+  min-width: 0;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.legendPct {
+  font-variant-numeric: tabular-nums;
+  color: rgba(0, 200, 180, 0.7);
+  font-weight: 500;
+  text-align: right;
+}
+
+.insight {
+  margin: 0;
+  font-size: 0.5rem;
+  color: rgba(160, 170, 190, 0.75);
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+}

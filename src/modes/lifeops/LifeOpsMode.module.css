@@ -1,0 +1,11 @@
+.layout {
+  --accent: #ff2ef5;
+  --accentDim: rgba(255, 46, 245, 0.18);
+  --accentMuted: rgba(255, 46, 245, 0.5);
+  --frameDim: rgba(120, 140, 160, 0.14);
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

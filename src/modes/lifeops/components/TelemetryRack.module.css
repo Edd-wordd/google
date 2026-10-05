@@ -1,0 +1,130 @@
+.rack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.capsule {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--frameDim, rgba(120, 140, 160, 0.12));
+}
+
+.capsuleLabel {
+  font-size: 0.28rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.1em;
+  color: rgba(140, 150, 170, 0.75);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ledRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.32rem;
+  margin-bottom: 4px;
+}
+
+.source {
+  width: 52px;
+  color: rgba(140, 150, 170, 0.8);
+}
+
+.led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(80, 90, 100, 0.6);
+  flex-shrink: 0;
+}
+
+.ledOn {
+  background: var(--accentMuted, rgba(255, 46, 245, 0.8));
+  box-shadow: 0 0 6px var(--accentDim, rgba(255, 46, 245, 0.3));
+}
+
+.ledBlink {
+  animation: ledBlink 0.6s ease-in-out infinite;
+}
+
+@keyframes ledBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.meta {
+  color: rgba(120, 130, 150, 0.7);
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  margin-top: 6px;
+}
+
+.syncBtn {
+  font-size: 0.3rem;
+  padding: 2px 8px;
+  background: transparent;
+  border: 1px solid var(--frameDim);
+  color: rgba(140, 150, 170, 0.9);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.syncBtn:hover:not(:disabled) {
+  border-color: var(--accentDim);
+  color: var(--accentMuted);
+}
+
+.syncBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tableRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.34rem;
+  padding: 2px 0;
+}
+
+.tableKey {
+  color: rgba(140, 150, 170, 0.8);
+}
+
+.tableVal {
+  color: var(--accentMuted, rgba(255, 46, 245, 0.8));
+  font-variant-numeric: tabular-nums;
+}
+
+.charts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.chartLabel {
+  font-size: 0.26rem;
+  color: rgba(140, 150, 170, 0.65);
+}
+
+.chartSkeleton {
+  height: 24px;
+  background: rgba(40, 45, 55, 0.4);
+  border-radius: 2px;
+}

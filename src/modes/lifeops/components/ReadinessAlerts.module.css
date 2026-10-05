@@ -1,0 +1,219 @@
+/* Diagnostics — system health report inside Life Ops Bay */
+.diagnostics {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: transparent;
+  padding: 6px 12px 10px;
+}
+
+.diagBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Readiness as system bar */
+.scoreBarWrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.scoreBarLabel {
+  font-size: 0.3rem;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.1em;
+  font-variant-caps: small-caps;
+  color: rgba(120, 130, 150, 0.8);
+  min-width: 72px;
+}
+
+.scoreBarTrack {
+  flex: 1;
+  height: 6px;
+  min-width: 60px;
+  background: rgba(30, 35, 45, 0.6);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.scoreBarFill {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 0.25s ease;
+}
+
+.scoreBarFill[data-tier='ok'] {
+  background: linear-gradient(90deg, var(--accentDim, rgba(255, 46, 245, 0.2)), var(--accentMuted, rgba(255, 46, 245, 0.5)));
+}
+
+.scoreBarFill[data-tier='warn'] {
+  background: linear-gradient(90deg, rgba(255, 200, 100, 0.25), rgba(255, 200, 100, 0.6));
+}
+
+.scoreBarFill[data-tier='low'] {
+  background: linear-gradient(90deg, rgba(255, 120, 100, 0.25), rgba(255, 120, 100, 0.6));
+}
+
+.scoreBarValue {
+  font-size: 0.34rem;
+  font-family: ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  color: var(--accentMuted, rgba(255, 46, 245, 0.9));
+  min-width: 32px;
+  text-align: right;
+}
+
+/* Subsystem load bars */
+.subsystemBlock {
+  flex-shrink: 0;
+}
+
+.subsystemTitle {
+  font-size: 0.28rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.12em;
+  color: rgba(120, 130, 150, 0.7);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.subRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+  font-size: 0.32rem;
+}
+
+.subLabel {
+  font-family: ui-monospace, monospace;
+  font-size: 0.3rem;
+  letter-spacing: 0.06em;
+  color: rgba(140, 150, 170, 0.85);
+  min-width: 36px;
+}
+
+.subBar {
+  flex: 1;
+  height: 4px;
+  min-width: 0;
+  background: rgba(30, 35, 45, 0.5);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.subBarFill {
+  height: 100%;
+  background: var(--accentMuted, rgba(255, 46, 245, 0.5));
+  border-radius: 1px;
+  transition: width 0.25s ease;
+}
+
+.subPct {
+  font-family: ui-monospace, monospace;
+  font-size: 0.3rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(140, 150, 170, 0.8);
+  min-width: 24px;
+  text-align: right;
+}
+
+/* Warnings list */
+.warningsBlock {
+  flex: 1;
+  min-height: 0;
+}
+
+.warningsTitle {
+  font-size: 0.28rem;
+  font-variant-caps: small-caps;
+  letter-spacing: 0.12em;
+  color: rgba(120, 130, 150, 0.7);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.warnList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.warnLine {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(120, 140, 160, 0.06);
+  font-size: 0.32rem;
+}
+
+.warnLine:last-child {
+  border-bottom: none;
+}
+
+.warnMarker {
+  flex-shrink: 0;
+  font-size: 0.28rem;
+  color: rgba(255, 180, 80, 0.9);
+}
+
+.warnMarker[data-dot='info'] {
+  color: var(--accentMuted, rgba(255, 46, 245, 0.8));
+}
+
+.warnCode {
+  font-family: ui-monospace, monospace;
+  font-size: 0.28rem;
+  letter-spacing: 0.04em;
+  color: rgba(140, 150, 170, 0.9);
+  flex-shrink: 0;
+}
+
+.warnText {
+  color: rgba(160, 170, 190, 0.88);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.warnNone {
+  font-size: 0.3rem;
+  font-family: ui-monospace, monospace;
+  color: rgba(100, 110, 130, 0.6);
+  padding: 4px 0;
+}
+
+.warnSkeleton {
+  font-size: 0.3rem;
+  color: rgba(100, 110, 130, 0.5);
+  padding: 4px 0;
+}
+
+/* Heartbeat / pulse indicator */
+.pulseIndicator {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  width: 20px;
+  height: 8px;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.pulseLine {
+  width: 100%;
+  height: 1px;
+  background: var(--accentMuted, rgba(255, 46, 245, 0.5));
+  border-radius: 1px;
+  transition: opacity 0.15s ease;
+}

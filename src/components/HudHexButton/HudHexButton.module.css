@@ -1,0 +1,208 @@
+/* 3D round premium HUD button — teal accent */
+
+.btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 76px;
+  padding: 8px 12px 10px;
+  cursor: pointer;
+  overflow: hidden;
+  border: none;
+  border-radius: 999px;
+  color: rgba(200, 230, 230, 0.95);
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 30%,
+    rgba(0, 220, 200, 0.12) 0%,
+    rgba(0, 180, 170, 0.06) 40%,
+    rgba(8, 24, 28, 0.95) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(0, 200, 180, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  box-shadow:
+    0 0 0 1px rgba(0, 200, 180, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+    0 6px 20px rgba(0, 0, 0, 0.45),
+    0 0 20px rgba(0, 200, 180, 0.12);
+}
+
+.btn:active {
+  box-shadow:
+    0 0 0 1px rgba(0, 200, 180, 0.35),
+    inset 0 2px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 2px 8px rgba(0, 0, 0, 0.35);
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid rgba(0, 200, 180, 0.55);
+  outline-offset: 2px;
+}
+
+/* Teal rim light */
+.rim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(0, 200, 180, 0.22);
+}
+
+.btn:hover .rim {
+  box-shadow: inset 0 0 0 1px rgba(0, 200, 180, 0.38);
+}
+
+/* Inner glass / bevel */
+.bevel {
+  position: absolute;
+  inset: 3px;
+  border-radius: 999px;
+  pointer-events: none;
+  box-shadow:
+    inset 0 2px 8px rgba(255, 255, 255, 0.05),
+    inset 0 -2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Subtle radial specular */
+.scanTexture {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 40% 35%,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 50%
+  );
+}
+
+.cornerNotch {
+  display: none;
+}
+
+/* Fast single-pass scan sweep on hover */
+.scanSweep {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 200, 180, 0.06) 45%,
+    rgba(0, 200, 180, 0.1) 50%,
+    rgba(0, 200, 180, 0.06) 55%,
+    transparent 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-100%);
+}
+
+.btn:hover .scanSweep {
+  animation: hexScanPass 0.6s ease-out 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover .scanSweep {
+    animation: none;
+  }
+}
+
+@keyframes hexScanPass {
+  0% { opacity: 0; transform: translateX(-100%); }
+  30% { opacity: 0.7; transform: translateX(0%); }
+  70% { opacity: 0.4; transform: translateX(80%); }
+  100% { opacity: 0; transform: translateX(100%); }
+}
+
+.btnPrimary {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 30%,
+    rgba(0, 220, 200, 0.2) 0%,
+    rgba(0, 190, 175, 0.12) 40%,
+    rgba(0, 140, 130, 0.15) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(0, 200, 180, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+    0 4px 16px rgba(0, 0, 0, 0.4),
+    0 0 14px rgba(0, 200, 180, 0.15);
+}
+
+.btnPrimary:hover {
+  box-shadow:
+    0 0 0 1px rgba(0, 200, 180, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 6px 22px rgba(0, 0, 0, 0.45),
+    0 0 24px rgba(0, 200, 180, 0.2);
+}
+
+.btnPrimary .label {
+  color: rgba(220, 255, 252, 0.98);
+  text-shadow: 0 0 10px rgba(0, 200, 180, 0.35);
+}
+
+.btnPrimary .icon {
+  color: rgba(180, 255, 248, 0.95);
+  text-shadow: 0 0 8px rgba(0, 200, 180, 0.4);
+}
+
+.btnPrimary .micro {
+  color: rgba(0, 200, 180, 0.7);
+}
+
+.btnSecondary {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 30%,
+    rgba(0, 200, 180, 0.08) 0%,
+    rgba(0, 170, 160, 0.04) 50%,
+    rgba(10, 28, 32, 0.95) 100%
+  );
+}
+
+.btnSecondary .label {
+  color: rgba(180, 230, 228, 0.92);
+}
+
+.btnSecondary .icon {
+  color: rgba(0, 200, 180, 0.85);
+}
+
+.btnSecondary .micro {
+  color: rgba(0, 200, 180, 0.45);
+}
+
+.icon {
+  font-size: 0.5rem;
+  line-height: 1;
+}
+
+.label {
+  font-size: 0.4rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.micro {
+  font-size: 0.3rem;
+  letter-spacing: 0.1em;
+  font-variant-caps: small-caps;
+}

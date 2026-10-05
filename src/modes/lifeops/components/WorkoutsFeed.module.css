@@ -1,0 +1,156 @@
+/* Activity Log — console log stream inside Life Ops Bay */
+.logStream {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: transparent;
+}
+
+.logScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 6px 12px 8px;
+}
+
+.logRow {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr auto auto;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(120, 140, 160, 0.08);
+  font-size: 0.38rem;
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  color: rgba(140, 150, 170, 0.7);
+}
+
+.logRow[data-today='true'] {
+  color: rgba(160, 170, 190, 0.88);
+}
+
+.logRow[data-latest='true'] {
+  color: rgba(180, 190, 200, 0.95);
+}
+
+.logCursor {
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accentMuted, rgba(255, 46, 245, 0.9));
+  box-shadow: 0 0 6px var(--accentMuted, rgba(255, 46, 245, 0.6));
+  animation: logCursorPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes logCursorPulse {
+  0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+  50% { opacity: 0.5; transform: translateY(-50%) scale(0.85); }
+}
+
+.logTime {
+  font-family: ui-monospace, monospace;
+  font-size: 0.36rem;
+  color: rgba(120, 130, 150, 0.75);
+  min-width: 48px;
+}
+
+.logRow[data-today='true'] .logTime,
+.logRow[data-latest='true'] .logTime {
+  color: rgba(140, 150, 170, 0.85);
+}
+
+.logDate {
+  font-size: 0.3rem;
+  letter-spacing: 0.04em;
+  color: rgba(100, 110, 130, 0.7);
+  min-width: 28px;
+}
+
+.logTag {
+  font-size: 0.32rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 2px 5px;
+  border-radius: 2px;
+  background: rgba(120, 140, 160, 0.12);
+  color: var(--accentMuted, rgba(255, 46, 245, 0.85));
+}
+
+.logTag[data-type='ride'] {
+  color: rgba(180, 200, 255, 0.9);
+  background: rgba(180, 200, 255, 0.08);
+}
+
+.logTag[data-type='walk'] {
+  color: rgba(160, 220, 180, 0.9);
+  background: rgba(160, 220, 180, 0.08);
+}
+
+.logSummary {
+  font-family: ui-monospace, monospace;
+  font-size: 0.34rem;
+  color: rgba(140, 150, 170, 0.8);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logSource {
+  font-size: 0.28rem;
+  letter-spacing: 0.06em;
+  color: rgba(120, 130, 150, 0.7);
+}
+
+.logActions {
+  display: flex;
+  gap: 2px;
+}
+
+.logBtn {
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.44rem;
+  font-family: inherit;
+  color: rgba(120, 130, 150, 0.6);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 1px;
+  transition: color 0.15s;
+}
+
+.logBtn:hover {
+  color: var(--accentMuted, rgba(255, 46, 245, 0.9));
+}
+
+.logFade {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(to top, rgba(6, 8, 12, 0.85), transparent);
+  pointer-events: none;
+}
+
+.logTail {
+  flex-shrink: 0;
+  padding: 4px 12px 8px;
+  font-size: 0.28rem;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.1em;
+  color: rgba(100, 110, 130, 0.55);
+  border-top: 1px solid rgba(120, 140, 160, 0.06);
+}

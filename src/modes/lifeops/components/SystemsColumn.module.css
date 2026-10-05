@@ -1,0 +1,85 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+  min-width: 90px;
+}
+
+.sectionTitle {
+  font-size: 0.44rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(0, 220, 200, 0.7);
+  margin-bottom: 2px;
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px 6px;
+  margin-bottom: 4px;
+  padding: 3px 4px;
+  background: rgba(8, 12, 18, 0.5);
+  border: 1px solid rgba(0, 220, 200, 0.08);
+  border-radius: 2px;
+}
+
+.matrixLabel {
+  font-size: 0.3rem;
+  letter-spacing: 0.08em;
+  color: rgba(120, 130, 150, 0.8);
+}
+
+.matrixVal {
+  font-size: 0.38rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(0, 220, 200, 0.88);
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.4rem;
+}
+
+.label {
+  color: rgba(140, 150, 170, 0.8);
+}
+
+.pct {
+  color: rgba(0, 220, 200, 0.9);
+  font-variant-numeric: tabular-nums;
+}
+
+.sparkGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 8px;
+  margin-top: 2px;
+}
+
+.sparkItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.sparkLabel {
+  font-size: 0.34rem;
+  color: rgba(120, 130, 150, 0.75);
+}
+
+.sparkSkeleton {
+  width: 36px;
+  height: 14px;
+  background: rgba(30, 35, 45, 0.5);
+  border-radius: 2px;
+}
+
+.skeletonRow {
+  height: 12px;
+  background: rgba(30, 35, 45, 0.4);
+  border-radius: 2px;
+}

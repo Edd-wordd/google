@@ -1,0 +1,384 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.hudOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.connectorSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.connectorPath {
+  stroke: rgba(0, 220, 255, 0.6);
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.originDot {
+  fill: rgba(0, 220, 255, 0.5);
+  stroke: rgba(0, 220, 255, 0.7);
+  stroke-width: 1;
+}
+
+.endpointBracket path {
+  stroke: rgba(0, 220, 255, 0.6);
+}
+
+.panel {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 720px;
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    145deg,
+    rgba(10, 12, 22, 0.92) 0%,
+    rgba(6, 8, 16, 0.95) 100%
+  );
+  border: 1px solid rgba(0, 200, 255, 0.2);
+  border-radius: 12px;
+  box-shadow:
+    0 0 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 180, 80, 0.08),
+    inset 0 0 60px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgba(255, 180, 80, 0.35);
+  border-radius: 6px;
+  background: rgba(255, 180, 80, 0.06);
+  color: rgba(255, 200, 140, 0.95);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+}
+
+.closeBtn:hover {
+  background: rgba(255, 180, 80, 0.14);
+  border-color: rgba(255, 180, 80, 0.5);
+  box-shadow: 0 0 12px rgba(255, 180, 80, 0.15);
+}
+
+.closeBtn:focus {
+  outline: none;
+}
+
+.closeBtn:focus-visible {
+  outline: 2px solid rgba(255, 180, 80, 0.6);
+  outline-offset: 2px;
+}
+
+.header {
+  padding: 16px 48px 12px 20px;
+  border-bottom: 1px solid rgba(0, 200, 255, 0.15);
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0 0 4px 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(0, 220, 255, 0.95);
+  text-shadow: 0 0 16px rgba(0, 220, 255, 0.3);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: rgba(160, 180, 200, 0.75);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.diagnostics {
+  flex-shrink: 0;
+  width: 140px;
+  padding: 14px 12px;
+  border-right: 1px solid rgba(0, 200, 255, 0.12);
+}
+
+.diagnosticsCard {
+  background: rgba(0, 20, 35, 0.5);
+  border: 1px solid rgba(0, 200, 255, 0.18);
+  border-radius: 8px;
+  padding: 12px 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.diagnosticsTitle {
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  color: rgba(0, 220, 255, 0.7);
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 200, 255, 0.2);
+}
+
+.meter {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 0.55rem;
+}
+
+.meter:last-child {
+  margin-bottom: 0;
+}
+
+.meterLabel {
+  color: rgba(140, 160, 180, 0.8);
+  letter-spacing: 0.04em;
+}
+
+.meterValue {
+  color: rgba(0, 255, 200, 0.95);
+  font-weight: 600;
+}
+
+.mainArea {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  padding: 14px 20px 14px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.hudGraphic {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  width: 180px;
+  height: 180px;
+  transform: translate(50%, -50%);
+  pointer-events: none;
+  background: radial-gradient(
+      circle at 50% 50%,
+      transparent 30%,
+      rgba(0, 200, 255, 0.03) 45%,
+      transparent 55%
+    ),
+    repeating-conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg 2deg,
+      rgba(0, 200, 255, 0.06) 2deg 4deg
+    );
+  border-radius: 50%;
+  border: 1px solid rgba(0, 200, 255, 0.15);
+  box-shadow:
+    0 0 40px rgba(0, 200, 255, 0.08),
+    inset 0 0 60px rgba(0, 0, 0, 0.15);
+}
+
+.hudGraphic::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 180, 80, 0.1);
+  background: radial-gradient(
+    circle at 50% 50%,
+    transparent 40%,
+    rgba(255, 180, 80, 0.02) 60%,
+    transparent 70%
+  );
+}
+
+.prList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.prRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(20, 25, 35, 0.4);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.prRow:hover {
+  border-color: rgba(0, 200, 255, 0.2);
+  background: rgba(25, 35, 50, 0.5);
+}
+
+.prAvatar {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 220, 255, 0.15);
+  border: 1px solid rgba(0, 200, 255, 0.3);
+}
+
+.prInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prTitle {
+  font-size: 0.65rem;
+  color: rgba(220, 230, 240, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.55rem;
+  color: rgba(160, 175, 195, 0.8);
+}
+
+.prPill {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: rgba(120, 140, 160, 0.2);
+  color: rgba(200, 210, 220, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.prPillOPEN {
+  background: rgba(0, 220, 140, 0.15);
+  color: rgba(0, 220, 140, 0.95);
+  border: 1px solid rgba(0, 220, 140, 0.35);
+}
+
+.prPillDRAFT {
+  background: rgba(160, 170, 190, 0.2);
+  color: rgba(200, 210, 220, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.prPillNEEDS_REVIEW {
+  background: rgba(255, 180, 80, 0.15);
+  color: rgba(255, 200, 120, 0.95);
+  border: 1px solid rgba(255, 180, 80, 0.35);
+}
+
+.prAge {
+  color: rgba(120, 140, 160, 0.8);
+}
+
+.footer {
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px 16px;
+  border-top: 1px solid rgba(0, 200, 255, 0.12);
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.filterBtn {
+  padding: 8px 16px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(0, 220, 255, 0.9);
+  background: rgba(0, 200, 255, 0.08);
+  border: 1px solid rgba(0, 200, 255, 0.35);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filterBtn:hover {
+  background: rgba(0, 200, 255, 0.14);
+  border-color: rgba(0, 220, 255, 0.5);
+  box-shadow: 0 0 14px rgba(0, 200, 255, 0.15);
+}
+
+.filterBtn:focus {
+  outline: none;
+}
+
+.filterBtn:focus-visible {
+  outline: 2px solid rgba(0, 220, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.closeFooterBtn {
+  padding: 8px 16px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(220, 220, 230, 0.95);
+  background: rgba(60, 65, 80, 0.5);
+  border: 1px solid rgba(255, 180, 80, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.closeFooterBtn:hover {
+  background: rgba(255, 180, 80, 0.12);
+  border-color: rgba(255, 180, 80, 0.45);
+  box-shadow: 0 0 12px rgba(255, 180, 80, 0.12);
+}
+
+.closeFooterBtn:focus {
+  outline: none;
+}
+
+.closeFooterBtn:focus-visible {
+  outline: 2px solid rgba(255, 180, 80, 0.5);
+  outline-offset: 2px;
+}

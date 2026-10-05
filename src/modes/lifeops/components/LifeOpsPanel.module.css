@@ -1,0 +1,403 @@
+/* Life Ops — tactical base; outer panel frameless so LifeOpsBay is the one frame */
+.hero {
+  --accent: #ff2ef5;
+  --accentDim: rgba(255, 46, 245, 0.18);
+  --accentMuted: rgba(255, 46, 245, 0.5);
+  --frameDim: rgba(120, 140, 160, 0.14);
+  position: relative;
+  min-height: 0;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.panel {
+  height: 100%;
+  min-height: 0;
+  border-radius: 12px;
+  background: rgba(12, 12, 20, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--frameDim);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.15);
+  padding: 12px 14px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dossierStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 3px 0 4px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--frameDim);
+  font-size: 0.4rem;
+  letter-spacing: 0.14em;
+  font-variant-caps: small-caps;
+  color: rgba(140, 150, 170, 0.75);
+}
+
+.dossierLeft {
+  flex-shrink: 0;
+}
+
+.dossierRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.waveTag {
+  font-size: 0.34rem;
+  padding: 1px 4px;
+  border: 1px solid var(--frameDim);
+  border-radius: 2px;
+  color: rgba(120, 130, 150, 0.8);
+}
+
+.header {
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.title {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accentDim);
+}
+
+.statusPill {
+  font-size: 0.46rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.statusPill[data-status='connected'] {
+  color: var(--accentMuted);
+  background: var(--accentDim);
+  border: 1px solid var(--accentMuted);
+}
+
+.statusPill[data-status='syncing'] {
+  color: rgba(255, 200, 100, 0.95);
+  background: rgba(255, 200, 100, 0.1);
+  border: 1px solid rgba(255, 200, 100, 0.3);
+}
+
+.statusPill[data-status='disconnected'] {
+  color: rgba(140, 150, 170, 0.8);
+  background: rgba(40, 45, 55, 0.5);
+  border: 1px solid rgba(120, 130, 150, 0.2);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.48rem;
+  letter-spacing: 0.05em;
+  color: rgba(140, 150, 180, 0.6);
+}
+
+.sectionTitle {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(140, 150, 170, 0.8);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.scanlineOverlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 3px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contentWrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.lifeOpsBay {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--frameDim);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.bayBackground {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-color: rgba(6, 8, 12, 0.97);
+  background-image:
+    linear-gradient(rgba(120, 140, 160, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 140, 160, 0.045) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bayBackground::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 120% 80% at 50% 35%,
+    transparent 20%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.5) 85%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  pointer-events: none;
+}
+
+.bayBackground::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(120, 140, 160, 0.02) 2px,
+    rgba(120, 140, 160, 0.02) 3px
+  );
+  pointer-events: none;
+}
+
+.lifeOpsBay::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40%;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(120, 140, 160, 0.012) 2px,
+    rgba(120, 140, 160, 0.012) 3px
+  );
+}
+
+/* Biometric console: 3-column centered hero body layout */
+.biometricConsole {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  gap: 18px;
+  align-items: center;
+  z-index: 1;
+  padding: 16px 18px;
+}
+
+.statsPodLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
+}
+
+.statsPodRight {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  max-height: 100%;
+  overflow-y: auto;
+  gap: 0;
+}
+
+.rightPodSection {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-top: 1px solid rgba(120, 140, 160, 0.1);
+  padding-top: 4px;
+}
+
+.rightPodHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 0 4px;
+  border-bottom: 1px solid rgba(120, 140, 160, 0.12);
+}
+
+.rightPodTitle {
+  font-size: 0.38rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  font-variant-caps: small-caps;
+  color: rgba(140, 150, 170, 0.9);
+}
+
+.rightPodMicroline {
+  font-size: 0.26rem;
+  font-family: ui-monospace, monospace;
+  letter-spacing: 0.06em;
+  color: rgba(120, 130, 150, 0.65);
+}
+
+.bodyStage {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bodyStageCanvasWrap {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bodyStageCanvasInner {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  position: relative;
+}
+
+.reticleOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  color: rgba(120, 140, 160, 0.5);
+}
+
+.reticleSvg {
+  width: 140px;
+  height: 180px;
+  opacity: 0.18;
+}
+
+.readoutDockWrap {
+  flex-shrink: 0;
+  padding: 10px 0 0;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.modelNotFound {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  letter-spacing: 0.2em;
+  font-variant-caps: small-caps;
+  color: rgba(120, 130, 150, 0.5);
+}
+
+.trendInstrument {
+  margin-top: 2px;
+  padding-top: 4px;
+  border-top: 1px solid var(--frameDim);
+}
+
+.trendLabel {
+  font-size: 0.38rem;
+  letter-spacing: 0.1em;
+  color: rgba(140, 150, 170, 0.75);
+  margin-bottom: 2px;
+}
+
+.sparkSkeleton {
+  width: 80px;
+  height: 18px;
+  background: rgba(30, 35, 45, 0.5);
+  border-radius: 2px;
+}
+
+.skeletonBar {
+  height: 6px;
+  background: rgba(30, 35, 45, 0.6);
+  border-radius: 3px;
+  margin-bottom: 4px;
+}
+
+.skeletonText {
+  height: 10px;
+  background: rgba(30, 35, 45, 0.5);
+  border-radius: 2px;
+  margin-bottom: 4px;
+}
+
+/* Responsive: below ~1100px — center body stage first, then stats stacked */
+@media (max-width: 1100px) {
+  .biometricConsole {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .bodyStage {
+    order: 0;
+    min-height: 360px;
+  }
+
+  .statsPodLeft {
+    order: 1;
+  }
+
+  .statsPodRight {
+    order: 2;
+  }
+}

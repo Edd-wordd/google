@@ -1,0 +1,117 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: rgba(255, 180, 80, 0.95);
+  margin-bottom: 4px;
+  text-shadow: 0 0 20px rgba(255, 180, 80, 0.4);
+}
+
+.subtitle {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: rgba(0, 255, 200, 0.7);
+  margin-bottom: 20px;
+}
+
+.coreArea {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orb {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 180, 80, 0.5),
+    rgba(255, 100, 150, 0.3) 40%,
+    rgba(0, 200, 255, 0.2) 70%,
+    transparent
+  );
+  box-shadow:
+    0 0 40px rgba(255, 180, 80, 0.4),
+    0 0 80px rgba(255, 100, 150, 0.2),
+    inset 0 0 30px rgba(255, 180, 80, 0.2);
+  animation: orbPulse 4s ease-in-out infinite;
+}
+
+@keyframes orbPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow:
+      0 0 40px rgba(255, 180, 80, 0.4),
+      0 0 80px rgba(255, 100, 150, 0.2),
+      inset 0 0 30px rgba(255, 180, 80, 0.2);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+    box-shadow:
+      0 0 50px rgba(255, 180, 80, 0.5),
+      0 0 100px rgba(255, 100, 150, 0.25),
+      inset 0 0 40px rgba(255, 180, 80, 0.25);
+  }
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 180, 80, 0.25);
+  box-shadow: 0 0 30px rgba(255, 180, 80, 0.1);
+}
+
+.ringSegments {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+}
+
+.segment {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 88px;
+  top: 0;
+  transform-origin: 100px 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 180, 80, 0.7);
+  font-size: 14px;
+}
+
+.segmentIcon {
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgba(255, 180, 80, 0.4);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.segment:nth-child(1) { transform: rotate(0deg); }
+.segment:nth-child(2) { transform: rotate(45deg); }
+.segment:nth-child(3) { transform: rotate(90deg); }
+.segment:nth-child(4) { transform: rotate(135deg); }
+.segment:nth-child(5) { transform: rotate(180deg); }
+.segment:nth-child(6) { transform: rotate(225deg); }
+.segment:nth-child(7) { transform: rotate(270deg); }
+.segment:nth-child(8) { transform: rotate(315deg); }
